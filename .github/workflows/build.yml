@@ -14,8 +14,13 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.14.3
-      - run: gradle build
+      - name: Build
+        run: |
+          DIR=$(dirname "$(find . -name settings.gradle | head -n 1)")
+          echo "Projekt w: $DIR"
+          cd "$DIR"
+          gradle build
       - uses: actions/upload-artifact@v4
         with:
           name: botx-mod
-          path: build/libs/*.jar
+          path: "**/build/libs/*.jar"
